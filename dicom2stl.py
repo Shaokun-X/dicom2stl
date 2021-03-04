@@ -42,7 +42,6 @@ from utils import vtkutils
 zipFlag = False
 dirFlag = False
 
-shrinkFlag = True
 thesholds = []
 shrinkFlag = True
 connectivityFilter = False
@@ -87,13 +86,17 @@ if tissueType:
     print("Tissue type: ", tissueType)
     if tissueType.find("bone") > -1:
         thresholds = [200., 800., 1300., 1500.]
+        isovalue = 1300
     elif tissueType.find("skin") > -1:
         thresholds = [-200., 0., 500., 1500.]
+        isovalue = 500
     elif tissueType.find("soft") > -1:
         thresholds = [-15., 30., 58., 100.]
+        isovalue = 60
         medianFilter = True
     elif tissueType.find("fat") > -1:
         thresholds = [-122., -112., -96., -70.]
+        isovalue = 100
         medianFilter = True
 
 if args.double_threshold:
@@ -116,7 +119,7 @@ if len(fname) == 0:
     sys.exit(4)
 
 # Parse wildcards
-# sum() flatten nested list
+# sum() flattens nested list
 fname = sum([glob(f) for f in fname], [])
 
 if zipfile.is_zipfile(fname[0]):
